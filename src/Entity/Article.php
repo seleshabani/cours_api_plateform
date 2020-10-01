@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
+use DateTimeImmutable;
+use App\Entity\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ApiResource()
  */
 class Article
 {
+     use Timestampable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,6 +37,11 @@ class Article
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    public function __construct() {
+        
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
